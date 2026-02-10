@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Typing Pattern Authentication</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #000000;
+        }
+
+        h2 {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 700;
+            background-clip: padding-box;
+            position: relative;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        label {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: white;
+            margin-right: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        #mode {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            font-size: 1.1em;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        #mode:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+            background: white;
+        }
+
+        #mode:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5);
+        }
+
+
+        p {
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: white;
+            text-align: center;
+        }
+
+        b {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            font-size: 1.3em;
+            letter-spacing: 1px;
+            backdrop-filter: blur(10px);
+            animation: pulse 2s infinite;
+            color: #000000
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        #typingArea {
+            padding: 20px;
+            border: 3px solid transparent;
+            border-radius: 20px;
+            font-size: 1.2em;
+            font-family: 'Courier New', monospace;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            resize: vertical;
+            width: 100%;
+            max-width: 700px;
+            color: #000000
+        }
+
+        #typingArea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
+            transform: translateY(-2px);
+        }
+
+        #typingArea::placeholder {
+            color: #888;
+            font-style: italic;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            border: none;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(254, 202, 87, 0.4);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(254, 202, 87, 0.6);
+        }
+
+        button:active {
+            transform: translateY(-2px);
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: 600;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            h2 { font-size: 2em; padding: 15px 25px; }
+            #typingArea { font-size: 1.1em; }
+            button { padding: 15px 35px; font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+    <h2>Typing Pattern Authentication</h2>
+
+    <label>Mode:</label>
+    <select id="mode">
+        <option value="train">Training</option>
+        <option value="auth">Authentication</option>
+    </select>
+
+    <p>Type the following text:</p>
+    <p><b>The quick brown fox jumps over the lazy dog.</b></p>
+
+    <textarea id="typingArea" rows="5" cols="60" placeholder="Start typing here..."></textarea><br><br>
+
+    <button onclick="submitTyping()" id="submitBtn" type="button">SUBMIT</button>
+
+
+    <p id="result"></p>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

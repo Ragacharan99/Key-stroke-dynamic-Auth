@@ -1,0 +1,14 @@
+# virtual environment
+venv/
+
+# python cache
+__pycache__/
+*.pyc
+
+# ML model & training data
+typing_model.pkl
+data/training_data.csv
+
+# OS / editor noise
+.DS_Store
+.vscode/
